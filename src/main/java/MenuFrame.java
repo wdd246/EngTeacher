@@ -30,6 +30,8 @@ public class MenuFrame extends JFrame implements ActionListener {
 
         if(source == addWordButton) {
             new AddWordFrame(getBounds());
+        }else if(source == startTestButton){
+            new Test();
         }
         dispose();
     }
