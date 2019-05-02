@@ -15,6 +15,15 @@ public class MenuFrame extends JFrame implements ActionListener {
         setBounds((int)screenSize.getWidth()/2,(int)screenSize.getHeight()/2, 400, 200);
         setVisible(true);
 
+
+
+
+
+
+
+
+
+
         addWordButton = new JButton("Dodaj słowo");
         addWordButton.addActionListener(this);
         add(addWordButton);
@@ -31,7 +40,7 @@ public class MenuFrame extends JFrame implements ActionListener {
         if(source == addWordButton) {
             new AddWordFrame(getBounds());
         }else if(source == startTestButton){
-            new Test();
+            new Test(getBounds());
         }
         dispose();
     }
