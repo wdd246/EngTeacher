@@ -10,8 +10,9 @@ public class Test extends JFrame implements ActionListener {
             JButton buttonCheck, buttonNext;
             JTextField textTranslation;
             int counter;
+            Connection conn = null;
 
-    public Test(Rectangle parentBounds){
+    public Test(Rectangle parentBounds, int counter){
 
         super("Test trwa...");
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -20,18 +21,21 @@ public class Test extends JFrame implements ActionListener {
         setBounds(parentBounds);
         setVisible(true);
 
-        /*if(counter == null)
-            counter = 3;*/
+        if(counter != 0) {
+            this.counter = counter - 1;
+        }else
+            dispose();
 
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = null;
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/angielski","root", "");
+
+            conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false" ,"AuQWpI0lIR", "g581bHZRFA");
             System.out.println("Database is connected !");
 
             Statement stmt = conn.createStatement() ;
-            String query = "SELECT Angielskie_Slowko,Polskie_Slowko FROM Slowa ORDER BY RAND() LIMIT 1;" ;
+            //String query = "SELECT Angielskie_Slowko,Polskie_Slowko FROM slowa ORDER BY RAND() LIMIT 1;" ;
+            String query = "SELECT Angielskie_Slowko,Polskie_Slowko FROM slowa WHERE ID = (SELECT slowo_ID FROM powtorka LIMIT 1);" ;
 
             ResultSet rs = stmt.executeQuery(query);
 
@@ -82,6 +86,29 @@ public class Test extends JFrame implements ActionListener {
 
         if(source == buttonCheck){
             if(textTranslation.getText().contentEquals(ang)) {
+                new Test(getBounds(),counter);
+
+                try
+                {
+                    Class.forName("com.mysql.jdbc.Driver");
+
+                    conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false" ,"AuQWpI0lIR", "g581bHZRFA");
+                    Statement stmt = conn.createStatement() ;
+                    String query = "DELETE FROM powtorka WHERE powtorka_ID = 1" ;
+                    //ResultSet rs = stmt.executeQuery(query);
+
+                    stmt.executeUpdate(query);
+
+
+                    conn.close();
+
+                }
+                catch(Exception ex)
+                {
+                    System.out.println("Error: "+ex);
+                }
+
+
 
                 dispose();
             }
