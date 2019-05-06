@@ -2,10 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class AddWordFrame extends JFrame implements ActionListener {
@@ -49,7 +46,8 @@ public class AddWordFrame extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
-
+        boolean exist=false;
+        int id;
         if(source == buttonAccept){
             new MenuFrame();
 
@@ -62,12 +60,23 @@ public class AddWordFrame extends JFrame implements ActionListener {
                 Statement stmt2 = conn2.createStatement();
                 System.out.println("Database is connected !");
 
-                String query2 = "INSERT INTO slowa(Angielskie_Slowko, Polskie_Slowko) VALUES ('" + enWordTextField.getText() + "', '" + plWordTextField.getText() + "')";
+                String query3 = "SELECT * FROM slowa where Angielskie_Slowko='" + enWordTextField.getText() + "' AND  Polskie_Slowko='" + plWordTextField.getText() +"'";
 
-                //ResultSet rs = stmt.executeQuery(query);
-                System.out.println(query2);
-                stmt2.executeUpdate(query2);
+                ResultSet rs = stmt2.executeQuery(query3);
+                while (rs.next())
+                {
+                    id = rs.getInt("ID");
+                    if(id>0){
+                        exist=true;
+                    }
+                }
+                if(!exist) {
+                    String query2 = "INSERT INTO slowa(Angielskie_Slowko, Polskie_Slowko) VALUES ('" + enWordTextField.getText() + "', '" + plWordTextField.getText() + "')";
 
+                    //ResultSet rs = stmt.executeQuery(query);
+                    System.out.println(query2);
+                    stmt2.executeUpdate(query2);
+                }
                 conn2.close();
 
             }
