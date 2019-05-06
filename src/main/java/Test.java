@@ -77,6 +77,8 @@ public class Test extends JFrame implements ActionListener {
         buttonNext = new JButton("Odłóż");
         buttonNext.addActionListener(this);
         add(buttonNext);
+
+        getRootPane().setDefaultButton(buttonCheck);
     }
 
 
@@ -86,7 +88,7 @@ public class Test extends JFrame implements ActionListener {
         if(source == buttonCheck){
             if(textTranslation.getText().contentEquals(ang)) {
                 new Test(getBounds(),counter);
-
+                getContentPane().setBackground(Color.gray);
                 /*try
                 {
                     Class.forName("com.mysql.jdbc.Driver");
@@ -115,6 +117,7 @@ public class Test extends JFrame implements ActionListener {
                 try
                 {
                     Class.forName("com.mysql.jdbc.Driver");
+                    getContentPane().setBackground(Color.RED);
 
                     conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false" ,"AuQWpI0lIR", "g581bHZRFA");
                     Statement stmt = conn.createStatement() ;
