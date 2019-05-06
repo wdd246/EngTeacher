@@ -35,8 +35,8 @@ public class Test extends JFrame implements ActionListener {
             System.out.println("Database is connected !");
 
             Statement stmt = conn.createStatement() ;
-            //String query = "SELECT Angielskie_Slowko,Polskie_Slowko FROM slowa ORDER BY RAND() LIMIT 1;" ;
-            String query = "SELECT powtorka.powtorka_ID,slowa.Angielskie_Slowko,slowa.Polskie_Slowko FROM slowa,powtorka WHERE slowa.ID = powtorka.slowo_ID;" ;
+            String query = "SELECT Angielskie_Slowko,Polskie_Slowko FROM slowa ORDER BY RAND() LIMIT 1;" ;
+            //String query = "SELECT powtorka.powtorka_ID,slowa.Angielskie_Slowko,slowa.Polskie_Slowko FROM slowa,powtorka WHERE slowa.ID = powtorka.slowo_ID;" ;
 
 
 
@@ -44,7 +44,8 @@ public class Test extends JFrame implements ActionListener {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next())
             {
-                id = rs.getInt("powtorka_ID");
+                //id = rs.getInt("powtorka_ID");
+                id = rs.getInt("ID");
                 ang = rs.getString("Angielskie_Slowko");
                 pl = rs.getString("Polskie_Slowko");
                 System.out.println(ang + " " + pl);
@@ -86,7 +87,7 @@ public class Test extends JFrame implements ActionListener {
             if(textTranslation.getText().contentEquals(ang)) {
                 new Test(getBounds(),counter);
 
-                try
+                /*try
                 {
                     Class.forName("com.mysql.jdbc.Driver");
 
@@ -104,11 +105,32 @@ public class Test extends JFrame implements ActionListener {
                 catch(Exception ex)
                 {
                     System.out.println("Error: "+ex);
-                }
+                }*/
 
 
 
                 dispose();
+            }else{
+
+                try
+                {
+                    Class.forName("com.mysql.jdbc.Driver");
+
+                    conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false" ,"AuQWpI0lIR", "g581bHZRFA");
+                    Statement stmt = conn.createStatement() ;
+                    String query = "INSERT INTO powtorka(slowo_ID) VALUES (" + id + ")";
+                    //ResultSet rs = stmt.executeQuery(query);
+
+                    stmt.executeUpdate(query);
+
+
+                    conn.close();
+
+                }
+                catch(Exception ex)
+                {
+                    System.out.println("Error: "+ex);
+                }
             }
 
         }
