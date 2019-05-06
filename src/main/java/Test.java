@@ -9,7 +9,7 @@ public class Test extends JFrame implements ActionListener {
     private String pl,ang;
             JButton buttonCheck, buttonNext;
             JTextField textTranslation;
-            int counter, id;
+            int counter=3, id;
             Connection conn = null;
 
 
@@ -21,11 +21,6 @@ public class Test extends JFrame implements ActionListener {
         setLayout(new FlowLayout());
         setBounds(parentBounds);
         setVisible(true);
-
-//        if(counter != 0) {
-//            this.counter = counter - 1;
-//        }else
-//            dispose();
 
         try
         {
@@ -74,67 +69,45 @@ public class Test extends JFrame implements ActionListener {
         buttonCheck.addActionListener(this);
         add(buttonCheck);
 
-        buttonNext = new JButton("Odłóż");
-        buttonNext.addActionListener(this);
-        add(buttonNext);
+//        buttonNext = new JButton("Odłóż");
+//        buttonNext.addActionListener(this);
+//        add(buttonNext);
 
         getRootPane().setDefaultButton(buttonCheck);
     }
 
-
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if(source == buttonCheck){
-            if(textTranslation.getText().contentEquals(ang)) {
+            if(textTranslation.getText().contentEquals(ang) || textTranslation.getText().contentEquals(ang.toLowerCase())) {
                 new Test(getBounds(),counter);
                 getContentPane().setBackground(Color.gray);
-                /*try
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-
-                    conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false" ,"AuQWpI0lIR", "g581bHZRFA");
-                    Statement stmt = conn.createStatement() ;
-                    String query = "DELETE FROM powtorka WHERE powtorka_ID =" + id ;
-                    //ResultSet rs = stmt.executeQuery(query);
-
-                    stmt.executeUpdate(query);
-
-
-                    conn.close();
-
-                }
-                catch(Exception ex)
-                {
-                    System.out.println("Error: "+ex);
-                }*/
-
-
-
                 dispose();
-            }else{
-
-                try
-                {
-                    Class.forName("com.mysql.jdbc.Driver");
-                    getContentPane().setBackground(Color.RED);
-
-                    conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false" ,"AuQWpI0lIR", "g581bHZRFA");
-                    Statement stmt = conn.createStatement() ;
-                    String query = "INSERT INTO powtorka(slowo_ID) VALUES (" + id + ")";
-                    //ResultSet rs = stmt.executeQuery(query);
-
-                    stmt.executeUpdate(query);
-
-
-                    conn.close();
-
-                }
-                catch(Exception ex)
-                {
-                    System.out.println("Error: "+ex);
-                }
             }
+            else{
+                if(counter >= 1) {
+                    counter = counter - 1;
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        getContentPane().setBackground(Color.PINK);
+
+                        conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false", "AuQWpI0lIR", "g581bHZRFA");
+                        Statement stmt = conn.createStatement();
+                        String query = "INSERT INTO powtorka(slowo_ID) VALUES (" + id + ")";
+                        //ResultSet rs = stmt.executeQuery(query);
+
+                        stmt.executeUpdate(query);
+
+
+                        conn.close();
+
+                    } catch (Exception ex) {
+                        System.out.println("Error: " + ex);
+                    }
+                }else{
+                    new Test(getBounds(),3);
+                    dispose();
+                }
 
         }
 
