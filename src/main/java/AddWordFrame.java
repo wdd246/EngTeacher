@@ -18,7 +18,7 @@ public class AddWordFrame extends JFrame implements ActionListener {
 
     public AddWordFrame(Rectangle parentFrameBounds){
         super("Dodaj słowo...");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(parentFrameBounds);
         setLayout(new FlowLayout());
         //setMaximumSize(new Dimension (100,200));

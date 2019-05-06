@@ -9,20 +9,11 @@ public class MenuFrame extends JFrame implements ActionListener {
 
     public MenuFrame(){
         super("EngTeacher 1.0");
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setLayout(new FlowLayout());
         screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((int)screenSize.getWidth()/2,(int)screenSize.getHeight()/2, 400, 200);
         setVisible(true);
-
-
-
-
-
-
-
-
-
 
         addWordButton = new JButton("Dodaj słowo");
         addWordButton.addActionListener(this);

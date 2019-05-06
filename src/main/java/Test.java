@@ -16,16 +16,16 @@ public class Test extends JFrame implements ActionListener {
     public Test(Rectangle parentBounds, int counter){
 
         super("Test trwa...");
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setAlwaysOnTop(true);
         setLayout(new FlowLayout());
         setBounds(parentBounds);
         setVisible(true);
 
-        if(counter != 0) {
-            this.counter = counter - 1;
-        }else
-            dispose();
+//        if(counter != 0) {
+//            this.counter = counter - 1;
+//        }else
+//            dispose();
 
         try
         {
@@ -35,7 +35,7 @@ public class Test extends JFrame implements ActionListener {
             System.out.println("Database is connected !");
 
             Statement stmt = conn.createStatement() ;
-            String query = "SELECT Angielskie_Slowko,Polskie_Slowko FROM slowa ORDER BY RAND() LIMIT 1;" ;
+            String query = "SELECT ID,Angielskie_Slowko,Polskie_Slowko FROM slowa ORDER BY RAND() LIMIT 1;" ;
             //String query = "SELECT powtorka.powtorka_ID,slowa.Angielskie_Slowko,slowa.Polskie_Slowko FROM slowa,powtorka WHERE slowa.ID = powtorka.slowo_ID;" ;
 
 
