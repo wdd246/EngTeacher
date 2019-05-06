@@ -57,20 +57,18 @@ public class AddWordFrame extends JFrame implements ActionListener {
             try
             {
                 Class.forName("com.mysql.jdbc.Driver");
-                Connection conn = null;
-                conn = DriverManager.getConnection("jdbc:mysql://localhost/angielski","root", "");
+                Connection conn2 = null;
+                conn2 = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false", "AuQWpI0lIR", "g581bHZRFA");
+                Statement stmt2 = conn2.createStatement();
                 System.out.println("Database is connected !");
 
-                Statement stmt = conn.createStatement() ;
-                String query = "INSERT INTO slowa (Angielskie_Slowko, Polskie_Slowko)" + "VALUES (?,?)";
+                String query2 = "INSERT INTO slowa(Angielskie_Slowko, Polskie_Slowko) VALUES ('" + enWordTextField.getText() + "', '" + plWordTextField.getText() + "')";
 
-                PreparedStatement preparedStmt = conn.prepareStatement(query);
-                preparedStmt.setString (1, enWordTextField.getText());
-                preparedStmt.setString (2, plWordTextField.getText());
-                preparedStmt.execute();
+                //ResultSet rs = stmt.executeQuery(query);
+                System.out.println(query2);
+                stmt2.executeUpdate(query2);
 
-
-                conn.close();
+                conn2.close();
 
             }
             catch(Exception ex)
