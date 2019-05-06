@@ -9,8 +9,9 @@ public class Test extends JFrame implements ActionListener {
     private String pl,ang;
             JButton buttonCheck, buttonNext;
             JTextField textTranslation;
-            int counter;
+            int counter, id;
             Connection conn = null;
+
 
     public Test(Rectangle parentBounds, int counter){
 
@@ -35,22 +36,19 @@ public class Test extends JFrame implements ActionListener {
 
             Statement stmt = conn.createStatement() ;
             //String query = "SELECT Angielskie_Slowko,Polskie_Slowko FROM slowa ORDER BY RAND() LIMIT 1;" ;
-            String query = "SELECT Angielskie_Slowko,Polskie_Slowko FROM slowa WHERE ID = (SELECT slowo_ID FROM powtorka LIMIT 1);" ;
+            String query = "SELECT powtorka.powtorka_ID,slowa.Angielskie_Slowko,slowa.Polskie_Slowko FROM slowa,powtorka WHERE slowa.ID = powtorka.slowo_ID;" ;
+
+
+
 
             ResultSet rs = stmt.executeQuery(query);
-
-
             while (rs.next())
             {
-                //int id = rs.getInt("ID");
+                id = rs.getInt("powtorka_ID");
                 ang = rs.getString("Angielskie_Slowko");
                 pl = rs.getString("Polskie_Slowko");
-
-
-                // print the results
-                System.out.println(ang + pl);
+                System.out.println(ang + " " + pl);
             }
-
 
             conn.close();
 
@@ -94,7 +92,7 @@ public class Test extends JFrame implements ActionListener {
 
                     conn = DriverManager.getConnection("jdbc:mysql://remotemysql.com/AuQWpI0lIR?useSSL=false" ,"AuQWpI0lIR", "g581bHZRFA");
                     Statement stmt = conn.createStatement() ;
-                    String query = "DELETE FROM powtorka WHERE powtorka_ID = 1" ;
+                    String query = "DELETE FROM powtorka WHERE powtorka_ID =" + id ;
                     //ResultSet rs = stmt.executeQuery(query);
 
                     stmt.executeUpdate(query);
